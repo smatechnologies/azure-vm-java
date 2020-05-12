@@ -49,7 +49,7 @@ jobs:
           mkdir AzureVM_Windows
           mkdir AzureVM_Windows/emplugins
           mv azure-vm-dist/jdk-* AzureVM_Windows/java
-          cp azure-vm-dist/AzureVM.exe AzureStorage_Windows/
+          cp azure-vm-dist/AzureVM.exe AzureVM_Windows/
           cp azure-vm-dist/Encrypt.exe AzureVM_Windows/
           cp azure-vm-dist/Connector.config AzureVM_Windows/
           cp azure-vm-dist/com.sma.ui.core.jobdetails.msazurevm_1.0.0.202005121417.jar AzureVM_Windows/emplugins
