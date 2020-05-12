@@ -1,5 +1,27 @@
 # Azure VM Connector (Java)
-SOURCE CODE & PACKAGE COMING SOON
+Is an OpCon connector that can interact with virtual machines in Microsoft Azure Virtual Machines.
+![diagrm](/docs/images/Connector_overview.png)
+
+The job definitions are entered as Windows jobs using the Azure VM Job Sub-Type. When the job is scheduled by OpCon the arguments are passed to the connector and a completion code is returned.
+
+The connector supports the following tasks to manage virtual machines.
+
+- **Create Virtual Machine**: creates a virtual machine.
+- **Delete Virtual Machine**: deletes a virtual machine.
+- **List Virtual Machines**: lists the virtual machines in the resource group providing information about each machine.
+- **PowerOff Virtual Machine**: performs a shuitdown of the virtual machine.
+- **Restart Virtual Machine**: Restarts the virtual machine.
+- **Start Virtual Machine**: Starts a virtual machine..
+
+During the Create, Restart and Start tasks, the connector retrieves the address information for the virtual machine and this can be saved in global properties with opCon for future use.
+
+# Prerequisites
+- Microsoft Azure Account
+- Execution requires a /java directory that contains a java 11 binary to execute the connector
+
+# Instructions
+
+For detailed information see the aszure-vm.md documentation.
 
 # Disclaimer
 No Support and No Warranty are provided by SMA Technologies for this project and related material. The use of this project's files is on your own risk.

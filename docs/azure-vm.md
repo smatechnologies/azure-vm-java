@@ -1,19 +1,19 @@
-# Azure Storage
+# Azure VM
 
-Azure Storage is an OpCon Connector for Windows that uses the Azure Java SDK to interact with Azure storage. Provides tasks to manage 
-containers and blobs (files)...
+Azure VM is an OpCon Connector for Windows that uses the Azure Java SDK to interact with Azure virtual machines. Provides tasks to manage 
+virtual machines...
 
-It consists of a single program **AzureStorage.exe**.
+It consists of a single program **AzureVM.exe**.
 
 ## Installation
 
 ### Environment
 
-- The command line utility needs **Java version 11** to function
+- The AzureVM.exe connector needs **Java version 11** to function
   - An embedded JavaRuntimeEnvironment 11 is included along with the delivery zip / tar files. Once the archive extracted, "/java" directory contains the JRE binaries.
 
 ### Windows Instructions
-Download AzureStorage_Windows.zip file from the desired [release available here](https://github.com/SMATechnologies/azure-storage-java/releases).
+Download AzureVM_Windows.zip file from the desired [release available here](https://github.com/SMATechnologies/azure-vm-java/releases).
 
 After download, extract the zip file to the location you'd like to install the connector to. Once unzipped, everything needed should be located under the root folder of that directory.
 
@@ -22,31 +22,48 @@ definitions (if the directory does not exist, create it).
 
 Restart Enterprise Manager and a new Windows Job Sub-Type Azure Storage should be visible (if not restart Enterprise Manager using 'Run as Administrator'). 
 
-Create a global property **AzureStoragePath** that contains the full path of the installation directory.
+Create a global property **AzureVmPath** that contains the full path of the installation directory.
  
 ## Configuration
-The Azure Storage connector uses a configuration file **Connector.config** that contains the Azure Storage account information.
+The Azure Vm connector uses a configuration file **Connector.config** that contains the Azure account information.
 
-The storage account information consists of the storage account name and the connection string for that storage account.
-The connection string must be encrypted using the **EncryptValue.exe** program.
+The account information consists of the subscription ID, the tenant ID, the client ID and secret key. These values can be trieved from the Azure environment.
 
-The encryption tool provides basic encryption capabilities to prevent clear text.
+The connection subsction ID, tenant ID, client ID and secret key must be encrypted using the **Encrypt.exe** program.
+
+The encryption tool provides basic encryption capabilities to prevent information being displayed in clear text.
+
+The connector also connects to the OpCon environment to save virtual machine addresses in global properties. This connection uses a application token when connecting to OpCon through the OpCon Rest-API.  
 
 **Connector.config** file example:
 ```
 [CONNECTOR]
-NAME=Azure Storage Connector
+NAME=Azure VM Connector
 DEBUG=OFF
 
-[STORAGE ACCOUNTS]
-STORAGE = <name>=<encrypted value> 
-STORAGE = <name>=<encrypted value>
+[MSAZURE]
+TENANT = (encrypted value)
+SUBSCRIPTION = (encrypted value)
+CLIENT = (encrypted value)
+KEY = (encrypted value)
+
+[OPCON API]
+OPCONAPI_ADDRESS = address:port
+OPCONAPI_USING_TLS = True
+OPCONAPI_TOKEN = (encrypted value)
 
 ```
 
-Keyword | Type | Description
--------------- | ---- | -----------
-STORAGE | Text | **name** is the storage account name and **encrypted value** is the storage account connection string encrypted using the **EncryptValue.exe** program. 
+Keyword             | Type | Description
+------------------- | ---- | -----------
+TENANT              | Text | **encrypted value** is the tenant ID encrypted using the using the **Encrypt.exe** program. 
+SUBSCRIPTION        | Text | **encrypted value** is the subscription ID encrypted using the using the **Encrypt.exe** program. 
+CLIENT              | Text | **encrypted value** is the client ID encrypted using the using the **Encrypt.exe** program. 
+KEY                 | Text | **encrypted value** is the secret key encrypted using the using the **Encrypt.exe** program. 
+
+OPCON_API_ADDRESS   | Text | is the address of the OpCon System and in inserted into the configuration file using the --setup switch on **AzureVM.exe**
+OPCON_API_USING_TLS | Text | indicates if the OpCon System is using tls and in inserted into the configuration file using the --setup switch on **AzureVM.exe**
+OPCON_API_TOKEN     | Text | is the application token used to connect to the OpCon System and into inserted in the configuration file using the --setup switch on **AzureVM.exe**
 
 ### EncryptValue Utility
 The EncryptValue utility uses standard 64 bit encryption.
@@ -56,18 +73,19 @@ Supports a -v argument and displays the encrypted value
 On Windows, example on how to encrypt the value "abcdefg":
 ```
 EncryptValue -v abcdefg
+
 ```
 
 ## Exit Codes
-The `AzureStorage` exits `0` when the performed request succeeds. Otherwise `AzureStorage` exits `1` on failure.
+The `AzureVM` exits `0` when the performed request succeeds. Otherwise `AzureVM` exits `1` on failure.
 
-## AzureStorage Arguments
-The AzureStorage connector requires arguments to be given to function. It uses the principle of Tasks, where each task performs an action or a combination of actions against Azure Storage.
+## AzureVM Arguments
+The AzureVM connector requires arguments to be given to function. It uses the principle of Tasks, where each task performs an action or a combination of actions against Azure Virtual Machines.
 
 ### Global
 Arguments | Description
 --------- | -----------
-**-sa**  | (Mandatory) The name of the Azure Storage account to perform the task on.
+**-rg**  | (Mandatory) The Resource group associated with the request.
 **-t**   | (Mandatory) The task to perform.
 
 ### containercreate
