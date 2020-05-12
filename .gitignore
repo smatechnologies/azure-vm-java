@@ -1,0 +1,11 @@
+connector/target/
+connector/log/
+connector/azure-vm-dist/
+connector/.classpath
+connector/.project
+connector/.settings
+connector/dependency-reduced-pom.xml
+emplugins/com.sma.ui.core.jobdetails.msazurevm/bin
+emplugins/com.sma.ui.core.jobdetails.msazurevm/.classpath
+emplugins/com.sma.ui.core.jobdetails.msazurevm/.project
+

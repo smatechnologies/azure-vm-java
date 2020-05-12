@@ -1,0 +1,127 @@
+# Workflow triggering
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*'
+
+name: azure-vm-java
+
+jobs:
+  ###########
+  # PACKAGE #
+  ###########
+  Job_Package:
+    runs-on: ubuntu-latest
+    name: Package
+    
+    steps:
+      # Checkout the code
+      - name: Code checkout
+        uses: actions/checkout@master
+      
+      # Prepare the environment with Java 11
+      - name: Setup java
+        uses: actions/setup-java@v1
+        with: 
+          java-version: 11
+          
+      # Build the maven project, output into ./azure-vm-dist/
+      - name: Build
+        run: mvn clean package
+      
+      ####################################
+      # Create Windows Distribution File #
+      ####################################        
+
+      # Download the latest GA OpenJDK JRE 11 from AdoptOpenJDK for Windows x64
+      - name: Get Java 11 JRE for Windows x64
+        run: curl -L "https://api.adoptopenjdk.net/v3/binary/latest/11/ga/windows/x64/jre/hotspot/normal/adoptopenjdk" --output java.zip
+        
+      # Extract Windows JRE
+      - name: Extract JRE into Java
+        run: 7z x java.zip -o./azure-vm-dist/
+      
+      # Prepare the Windows distribution folder for Zip
+      - name: Create Windows Folder
+        run: |
+          mkdir AzureVM_Windows
+          mkdir AzureVM_Windows/emplugins
+          mv azure-vm-dist/jdk-* AzureVM_Windows/java
+          cp azure-vm-dist/AzureVM.exe AzureStorage_Windows/
+          cp azure-vm-dist/Encrypt.exe AzureVM_Windows/
+          cp azure-vm-dist/Connector.config AzureVM_Windows/
+          cp azure-vm-dist/com.sma.ui.core.jobdetails.msazurevm_1.0.0.202005121417.jar AzureVM_Windows/emplugins
+          cp docs/azure-vm.md AzureVM_Windows/
+          
+      # Zip the folder that contains all binaries and configuration to run on Windows (including Java)    
+      - name: Zip Windows Folder
+        uses: montudor/action-zip@v0.1.0
+        with:
+          args: zip -qq -r ./AzureVM_Windows.zip ./AzureVM_Windows
+      
+      # Upload the AzureVM.exe binary file as artifact
+      - uses: actions/upload-artifact@v1
+        with:
+          name: AzureVM.exe
+          path: azure-vm-dist/AzureVM.exe
+      
+      # Upload the encrypt.exe binary file as artifact
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Encrypt.exe
+          path: azure-vm-dist/Encrypt.exe
+
+      # Upload the job sub-type binary file as artifact
+      - uses: actions/upload-artifact@v1
+        with:
+          name: com.sma.ui.core.jobdetails.msazurevm_1.0.0.202005121417.jar
+          path: azure-vm-dist/com.sma.ui.core.jobdetails.msazurevm_1.0.0.202005121417.jar
+
+      # Upload the AzureVM_Windows.zip file as artifact
+      - uses: actions/upload-artifact@v1
+        with:
+          name: AzureVM_Windows.zip
+          path: ./AzureVM_Windows.zip
+          
+  #########################
+  # RELEASE | TAG CREATED #
+  #########################
+  Job_Release:
+    # Release - only ran when pushing new Tag starting with 'v'
+    if: startsWith(github.ref, 'refs/tags/v')
+    name: Release
+    needs: job_Package
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Download Windows Package
+        uses: actions/download-artifact@v1
+        with:
+          name: AzureVM_Windows.zip
+          path: ./
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: true
+          prerelease: false
+      
+      # Upload the Windows Zip distribution to the newly created Release
+      - name: Upload Windows Release Asset
+        id: upload_release_asset_win
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: AzureVM_Windows.zip
+          asset_name: AzureVM_Windows.zip
+          asset_content_type: application/zip
