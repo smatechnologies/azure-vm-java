@@ -29,7 +29,7 @@ jobs:
           
       # Build the maven project, output into ./azure-vm-dist/
       - name: Build
-        run: mvn clean package
+        run: mvn clean package --file connector/pom.xml
       
       ####################################
       # Create Windows Distribution File #
