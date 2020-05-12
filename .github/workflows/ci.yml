@@ -27,7 +27,7 @@ jobs:
         with: 
           java-version: 11
           
-      # Build the maven project, output into ./azure-vm-dist/
+      # Build the maven project, output into ./connector/azure-vm-dist/
       - name: Build
         run: mvn clean package --file connector/pom.xml
       
@@ -41,18 +41,18 @@ jobs:
         
       # Extract Windows JRE
       - name: Extract JRE into Java
-        run: 7z x java.zip -o./azure-vm-dist/
+        run: 7z x java.zip -o./connector/azure-vm-dist/
       
       # Prepare the Windows distribution folder for Zip
       - name: Create Windows Folder
         run: |
           mkdir AzureVM_Windows
           mkdir AzureVM_Windows/emplugins
-          mv azure-vm-dist/jdk-* AzureVM_Windows/java
-          cp azure-vm-dist/AzureVM.exe AzureVM_Windows/
-          cp azure-vm-dist/Encrypt.exe AzureVM_Windows/
-          cp azure-vm-dist/Connector.config AzureVM_Windows/
-          cp azure-vm-dist/com.sma.ui.core.jobdetails.msazurevm_1.0.0.202005121417.jar AzureVM_Windows/emplugins
+          mv connector/azure-vm-dist/jdk-* AzureVM_Windows/java
+          cp connector/azure-vm-dist/AzureVM.exe AzureVM_Windows/
+          cp connector/azure-vm-dist/Encrypt.exe AzureVM_Windows/
+          cp connector/azure-vm-dist/Connector.config AzureVM_Windows/
+          cp connector/azure-vm-dist/com.sma.ui.core.jobdetails.msazurevm_1.0.0.202005121417.jar AzureVM_Windows/emplugins
           cp docs/azure-vm.md AzureVM_Windows/
           
       # Zip the folder that contains all binaries and configuration to run on Windows (including Java)    
@@ -65,19 +65,19 @@ jobs:
       - uses: actions/upload-artifact@v1
         with:
           name: AzureVM.exe
-          path: azure-vm-dist/AzureVM.exe
+          path: connector/azure-vm-dist/AzureVM.exe
       
       # Upload the encrypt.exe binary file as artifact
       - uses: actions/upload-artifact@v1
         with:
           name: Encrypt.exe
-          path: azure-vm-dist/Encrypt.exe
+          path: connector/azure-vm-dist/Encrypt.exe
 
       # Upload the job sub-type binary file as artifact
       - uses: actions/upload-artifact@v1
         with:
           name: com.sma.ui.core.jobdetails.msazurevm_1.0.0.202005121417.jar
-          path: azure-vm-dist/com.sma.ui.core.jobdetails.msazurevm_1.0.0.202005121417.jar
+          path: connector/azure-vm-dist/com.sma.ui.core.jobdetails.msazurevm_1.0.0.202005121417.jar
 
       # Upload the AzureVM_Windows.zip file as artifact
       - uses: actions/upload-artifact@v1
