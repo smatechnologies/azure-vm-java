@@ -34,12 +34,11 @@ public interface IConstants {
 		public static final String SPACE = " ";
 		public static final String SINGLE_QUOTE = "'";
 		public static final String UNDERSCORE = "_";
-		public static final String SOFTWARE_VERSION = "20.0.1";
 
 	}	
 	
 	public interface General {
-		public static final String SOFTWARE_VERSION = "20.0.3";
+		public static final String SOFTWARE_VERSION = "1.0.0";
 		public static final String SYSTEM_USER_DIRECTORY = "user.dir";
 		public static final String TRUE = "True";
 		public static final String TRUE_LOWER_CASE = "true";

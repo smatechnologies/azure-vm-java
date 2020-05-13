@@ -52,6 +52,10 @@ Argument       | Description
 -address       | The address and port number of the OpCon Rest-API server - this information in inserted into the Connector.config as OPCON-ADDRESS.
 -tls           | Indicates if the OpCon Rest-API requires a tls connection - this information is inserted into the Connector.config as OPCONAPI_USING_TLS.
 
+```
+AzureVM.exe --setup -username name -password pwd -address server:port -tls
+
+```
 
 **Connector.config** file example:
 ```
