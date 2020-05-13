@@ -22,6 +22,7 @@ import com.smatechnologies.msazure.vm.interfaces.IMessages;
 import com.smatechnologies.msazure.vm.interfaces.IOpConApi;
 import com.smatechnologies.msazure.vm.modules.CreateVMAttributes;
 import com.smatechnologies.msazure.vm.modules.InternalIpAddresses;
+import com.smatechnologies.msazure.vm.routines.Encryption;
 import com.smatechnologies.opcon.restapiclient.api.OpconApi;
 import com.smatechnologies.opcon.restapiclient.api.OpconApiProfile;
 
@@ -34,6 +35,8 @@ public class VmConnectorImpl {
 
 	private IAzureVm _IAzureVm = new AzureVmImpl();
 	private IOpConApi _IOpConApi = new OpConApiImpl();
+	private Encryption _Encryption = new Encryption();
+	
 	private Hashtable<String, String> htblPrivateAddresses = new Hashtable<String, String>();
 	
 	private OpconApi opconApi = null;
@@ -282,7 +285,8 @@ public class VmConnectorImpl {
 			) throws Exception {
 		
 		try {
-			
+			LOG.debug("Property values privateIP {" + privateIP + "} ipPrivatePropertyName {" + ipPrivatePropertyName +
+					"} publicIP {" + publicIP + "} ipPublicPropertyName {" + ipPublicPropertyName + "}");
 			if(ipPrivatePropertyName != null) {
 				_IOpConApi.updateOpConProperty(opconApi, ipPrivatePropertyName, privateIP);
 			}
@@ -317,6 +321,10 @@ public class VmConnectorImpl {
 		}
 		token = _IOpConApi.createApplicationToken(opconApi, _ConnectorArguments.getUserName(), _ConnectorArguments.getPassword());
 		if(token !=  null) {
+			// encode it
+			byte[] encoded =  _Encryption.encode64(token);
+			String hexEncoded = _Encryption.encodeHexString(encoded);
+
 			Wini ini = new Wini(new File(configFileName));
 			ini.put(IConstants.Configuration.OPCONAPI_HEADER, IConstants.Configuration.OPCONAPI_ADDRESS, _ConnectorArguments.getAddress());
 			if(_ConnectorArguments.isUsingTls()) {
@@ -324,7 +332,7 @@ public class VmConnectorImpl {
 			} else {
 				ini.put(IConstants.Configuration.OPCONAPI_HEADER, IConstants.Configuration.OPCONAPI_USING_TLS, "False");
 			}
-			ini.put(IConstants.Configuration.OPCONAPI_HEADER, IConstants.Configuration.OPCONAPI_TOKEN, token);
+			ini.put(IConstants.Configuration.OPCONAPI_HEADER, IConstants.Configuration.OPCONAPI_TOKEN, hexEncoded);
 			ini.store();
 			LOG.info("Configuration file updated");
 		}

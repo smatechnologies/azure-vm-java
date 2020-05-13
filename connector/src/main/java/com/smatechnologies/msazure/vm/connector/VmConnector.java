@@ -59,14 +59,14 @@ public class VmConnector {
 			workingDirectory = System.getProperty(IConstants.General.SYSTEM_USER_DIRECTORY);
 			// go get information from config file
 			configFileName = workingDirectory + File.separator + IConstants.General.CONFIG_FILE_NAME;
-        	Preferences iniPrefs = new IniPreferences(new Ini(new File(configFileName)));
-        	// insert values into  configuration
-        	_ConnectorConfig = _Util.getConfigInformation(iniPrefs, _ConnectorConfig);
-			_VmConnector.setLogger(_ConnectorConfig.isOpconApiUsingTls());
 			if(_ConnectorArguments.isSetup()) {
 				_VmConnectorImpl.getApplicationToken(_ConnectorArguments, configFileName);
 				System.exit(0);
 			}
+        	Preferences iniPrefs = new IniPreferences(new Ini(new File(configFileName)));
+        	// insert values into  configuration
+        	_ConnectorConfig = _Util.getConfigInformation(iniPrefs, _ConnectorConfig);
+			_VmConnector.setLogger(_ConnectorConfig.isOpconApiUsingTls());
 			if(_ConnectorArguments.getResourceGroup() == null) {
 				LOG.error(ResourceGroupMissingMsg);
 				System.exit(1);

@@ -13,7 +13,7 @@ The connector supports the following tasks to manage virtual machines.
 - **Restart Virtual Machine**: Restarts the virtual machine.
 - **Start Virtual Machine**: Starts a virtual machine..
 
-During the Create, Restart and Start tasks, the connector retrieves the address information for the virtual machine and this can be saved in global properties with opCon for future use.
+During the Create, Restart and Start tasks, the connector retrieves the address information for the virtual machine and this can be saved in global properties for future use.
 
 # Prerequisites
 - Microsoft Azure Account
@@ -27,12 +27,6 @@ For detailed information see the aszure-vm.md documentation.
 No Support and No Warranty are provided by SMA Technologies for this project and related material. The use of this project's files is on your own risk.
 
 SMA Technologies assumes no liability for damage caused by the usage of any of the files offered here via this Github repository.
-
-# Prerequisites
-
-
-# Instructions
-
 
 # License
 Copyright 2019 SMA Technologies

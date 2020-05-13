@@ -45,7 +45,10 @@ public class Util {
 			// OpCon API
 			config.setOpconApiAddress(iniPrefs.node(IConstants.Configuration.OPCONAPI_HEADER).get(IConstants.Configuration.OPCONAPI_ADDRESS, null));
 			config.setOpconApiUsingTls(iniPrefs.node(IConstants.Configuration.OPCONAPI_HEADER).getBoolean(IConstants.Configuration.OPCONAPI_USING_TLS, true));
-			config.setOpconApiToken(iniPrefs.node(IConstants.Configuration.OPCONAPI_HEADER).get(IConstants.Configuration.OPCONAPI_TOKEN, null));
+			String token = iniPrefs.node(IConstants.Configuration.OPCONAPI_HEADER).get(IConstants.Configuration.OPCONAPI_TOKEN, null);			
+			if(token != null) {
+				config.setOpconApiToken(decryptEncodedValue(token));
+			}
 			LOG.debug(IMessages.SeparatorLine);
 			LOG.debug("Configuration information");
 			LOG.debug("General Name                 {" + config.getName() + "}");
