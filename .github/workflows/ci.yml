@@ -125,3 +125,14 @@ jobs:
           asset_path: AzureVM_Windows.zip
           asset_name: AzureVM_Windows.zip
           asset_content_type: application/zip
+      # Upload the Job Subtype the newly created Release
+      - name: Upload JobSubYtpe Asset
+        id: upload_release_asset_win
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: connector/azure-vm-dist/com.sma.ui.core.jobdetails.msazurevm_1.0.0.202005121417.jar
+          asset_name: com.sma.ui.core.jobdetails.msazurevm_1.0.0.202005121417.jar
+          asset_content_type: application/zip
