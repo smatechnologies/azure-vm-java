@@ -4,6 +4,7 @@ public class MsAzureVmEnums {
 
 	public static enum Task {
 		create,
+		deallocate,
 		delete,
 		list,
 		poweroff,

@@ -356,6 +356,22 @@ public class MsAzureVmWindowsSubJobDetailsWidget extends AbstractWindowsSubJobDe
 						_adminUserPasswordText.setEnabled(true);
 						break;
 		
+					case deallocate:
+						_virtualMachineText.setEnabled(true);
+						_privateIpAddressPropertyText.setEnabled(false);
+						_publicIpAddressPropertyText.setEnabled(false);
+						_vmTypeItemCombo.setEnabled(false);
+						_regionCombo.setEnabled(false);
+						_vmImageCombo.setEnabled(false);
+						_vmCustomImageCheckBox.setEnabled(false);
+						_vmSizeCombo.setEnabled(false);
+						_vmNetworkText.setEnabled(false);
+						_vmAddressSpaceText.setEnabled(false);
+						_diskSizeText.setEnabled(false);
+						_adminUserIdText.setEnabled(false);
+						_adminUserPasswordText.setEnabled(false);
+						break;
+
 					case delete:
 						_virtualMachineText.setEnabled(true);
 						_privateIpAddressPropertyText.setEnabled(false);
@@ -568,6 +584,16 @@ public class MsAzureVmWindowsSubJobDetailsWidget extends AbstractWindowsSubJobDe
 				}
 				break;
 	
+			case deallocate :
+				builder.append(SystemConstants.SIGN_MINUS);
+				builder.append(MsAzureVmConstants.Arguments.VIRTUAL_MACHINE_ARGUMENT);
+				builder.append(SystemConstants.VERTICAL_TAB);
+				builder.append(SystemConstants.QUOTE);
+				builder.append(_virtualMachineText.getText());
+				builder.append(SystemConstants.QUOTE);
+				builder.append(SystemConstants.VERTICAL_TAB);
+				break;
+
 			case delete :
 				builder.append(SystemConstants.SIGN_MINUS);
 				builder.append(MsAzureVmConstants.Arguments.VIRTUAL_MACHINE_ARGUMENT);
@@ -804,6 +830,25 @@ public class MsAzureVmWindowsSubJobDetailsWidget extends AbstractWindowsSubJobDe
 				_adminUserPasswordText.setEnabled(true);
 				break;
 				
+			case deallocate:
+				if(cmd.hasOption(MsAzureVmConstants.Arguments.VIRTUAL_MACHINE_ARGUMENT)) {
+					_virtualMachineText.setText(removeLeadingTrailingDoubleQuotes(cmd.getOptionValue(MsAzureVmConstants.Arguments.VIRTUAL_MACHINE_ARGUMENT))); 
+				}
+				_virtualMachineText.setEnabled(true);
+				_privateIpAddressPropertyText.setEnabled(false);
+				_publicIpAddressPropertyText.setEnabled(false);
+				_vmTypeItemCombo.setEnabled(false);
+				_regionCombo.setEnabled(false);
+				_vmImageCombo.setEnabled(false);
+				_vmCustomImageCheckBox.setEnabled(false);
+				_vmSizeCombo.setEnabled(false);
+				_vmNetworkText.setEnabled(false);
+				_vmAddressSpaceText.setEnabled(false);
+				_diskSizeText.setEnabled(false);
+				_adminUserIdText.setEnabled(false);
+				_adminUserPasswordText.setEnabled(false);
+				break;
+
 			case delete:
 				if(cmd.hasOption(MsAzureVmConstants.Arguments.VIRTUAL_MACHINE_ARGUMENT)) {
 					_virtualMachineText.setText(removeLeadingTrailingDoubleQuotes(cmd.getOptionValue(MsAzureVmConstants.Arguments.VIRTUAL_MACHINE_ARGUMENT))); 

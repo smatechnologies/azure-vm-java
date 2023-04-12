@@ -142,6 +142,22 @@ public class AzureVmImpl implements IAzureVm {
         return success;
     }
 
+    public boolean deallocateVirtualMachine(
+    		VirtualMachine virtualMachine
+			) throws Exception {
+    	
+    	boolean success = false;
+    	
+    	try {
+   			LOG.debug("Deallocating Virtual Machine (" + virtualMachine.name() + ")");
+     		virtualMachine.deallocate();
+    		success = true;
+		} catch(Exception ex) {
+			throw new Exception(ex);
+		}
+        return success;
+    }
+
     public boolean startVirtualMachine(
     		VirtualMachine virtualMachine
 			) throws Exception {

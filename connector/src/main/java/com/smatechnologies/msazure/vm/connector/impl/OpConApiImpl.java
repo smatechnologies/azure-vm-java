@@ -63,7 +63,7 @@ public class OpConApiImpl implements IOpConApi {
 		        
 		        client = clientBuilder.build();
 				DefaultObjectMapperProvider objectMapperProvider = new DefaultObjectMapperProvider();
-			    objectMapperProvider.getObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+			    objectMapperProvider.getObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	            client.register(new WSLogger(objectMapperProvider));
 		        
 	            ctxObjectMapperProvider = objectMapperProvider;
@@ -73,7 +73,7 @@ public class OpConApiImpl implements IOpConApi {
 		        
 		        client = clientBuilder.build();
 		        DefaultObjectMapperProvider objectMapperProvider = new DefaultObjectMapperProvider();
-			    objectMapperProvider.getObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+			    objectMapperProvider.getObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	            ctxObjectMapperProvider = objectMapperProvider;
 			}
             opconApi = new OpconApi(client, profile, new OpconApi.OpconApiListener() {

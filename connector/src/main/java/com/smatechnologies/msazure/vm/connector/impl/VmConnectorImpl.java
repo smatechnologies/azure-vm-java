@@ -103,6 +103,25 @@ public class VmConnectorImpl {
 	        	}
 				break;
 	
+			case deallocate:
+				if(_ConnectorArguments.getVirtualMachine() == null) {
+					LOG.error("deallocate function required Virtual Machine Name argument");
+			    	return false;
+				}
+				virtualMachine = getVirtualMachine(_ConnectorArguments);
+				if(virtualMachine == null) {
+					LOG.error("Failed to find virtual machine (" + _ConnectorArguments.getVirtualMachine() + 
+							") in Resource Group (" + _ConnectorArguments.getResourceGroup() + ")");
+			    	return false;
+				}
+			    success =  _IAzureVm.deallocateVirtualMachine(virtualMachine); 
+	        	if(!success) {
+	        		LOG.error("Deallocate of virtual machine (" + virtualMachine.name() + ") failed");
+	        	} else {
+	            	LOG.info("Deallocate of virtual machine (" + virtualMachine.name() + ") succeeded");
+	        	}
+				break;
+
 			case delete:
 				if(_ConnectorArguments.getVirtualMachine() == null) {
 					LOG.error("delete function required Virtual Machine Name argument");

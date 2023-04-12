@@ -4,7 +4,7 @@
 
   <groupId>com.smatechnologies</groupId>
   <artifactId>msazure.vm.connector</artifactId>
-  <version>1.0.0</version>
+  <version>21.1.0</version>
   <packaging>jar</packaging>
 
   <name>msazure.vm.connector</name>
@@ -18,7 +18,7 @@
 	<jersey.version>2.27</jersey.version>
 	<jackson.version>2.10.0</jackson.version>
     <jaxb.api.version>2.3.0</jaxb.api.version>
-    <opcon.rest.api.version>1.0.3</opcon.rest.api.version>
+    <opcon.rest.api.version>21.0.1</opcon.rest.api.version>
     <org.glassfish.hk2.version>2.6.0</org.glassfish.hk2.version>
   </properties>
   
@@ -277,7 +277,7 @@
 						<configuration>
 			  				<target>
 	               				<copy file="${project.basedir}/src/main/resources/Connector.config" todir="${release.dir}"/>
-	               				<copy file="${project.basedir}/src/main/resources/com.sma.ui.core.jobdetails.msazurevm_1.0.0.202005121417.jar" todir="${release.dir}"/>
+	               				<copy file="${project.basedir}/src/main/resources/com.sma.ui.core.jobdetails.msazurevm_1.0.0.202304061155.jar" todir="${release.dir}"/>
 							</target>
 						</configuration>
 						<goals>

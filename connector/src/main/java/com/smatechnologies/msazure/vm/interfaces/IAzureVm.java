@@ -18,6 +18,7 @@ public interface IAzureVm {
 	public List<VirtualMachine> getVirtualMachineList(String resourceGroup) throws Exception;
 	
     public boolean powerOffVirtualMachine(VirtualMachine virtualMachine) throws Exception;
+    public boolean deallocateVirtualMachine(VirtualMachine virtualMachine) throws Exception;
     public boolean startVirtualMachine(VirtualMachine virtualMachine) throws Exception;
     public boolean restartVirtualMachine(VirtualMachine virtualMachine) throws Exception;
     public boolean deleteVirtualMachine(VirtualMachine virtualMachine) throws Exception;

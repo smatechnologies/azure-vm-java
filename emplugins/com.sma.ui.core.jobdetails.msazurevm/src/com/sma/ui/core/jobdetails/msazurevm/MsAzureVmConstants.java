@@ -33,6 +33,7 @@ public interface MsAzureVmConstants {
 				new ComboItem ("Delete Virtual Machine", MsAzureVmEnums.Task.delete), 
 				new ComboItem ("List Virtual Machines", MsAzureVmEnums.Task.list), 
 				new ComboItem ("PowerOff Virtual Machine", MsAzureVmEnums.Task.poweroff), 
+				new ComboItem ("Deallocate Virtual Machine", MsAzureVmEnums.Task.deallocate), 
 				new ComboItem ("Restart Machine", MsAzureVmEnums.Task.restart), 
 				new ComboItem ("Start Virtual Machine", MsAzureVmEnums.Task.start), 
 				new ComboItem ("Unknown", MsAzureVmEnums.Task.unknown)};

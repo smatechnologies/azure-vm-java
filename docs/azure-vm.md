@@ -163,6 +163,17 @@ OpCon                    West Europe         PowerState/running            10.1.
 SDM2                     West Europe         PowerState/stopped            10.1.0.9       168.63.108.63  LINUX      
 ------------------------------------------------------------------------------------------------------------------ 
 ```
+### Deallocate Virtual Machine
+Can be used to deallocate a virtual machine resources (alternate to PowerOff).
+
+Arguments  | Description
+---------- | -----------
+**-t**     | Value is **deallocate**
+**-vm**    | Required field containing the name of the virtual machine to power off.
+
+Usage
+```
+AzureVM.exe -rg MY_RESOURCEGROUP -t poweroff -vm MY_VMACHINE
 ### PowerOff Virtual Machine
 Can be used to poweroff a virtual machine.
 
@@ -211,7 +222,7 @@ The AzureVM connector provides a Job Sub-Type that can be used to simplify job d
 Select the Task from the drop-down list and enter the required values. Only values associated with the task will be enabled. Once a task has been saved, the task type cannot be changed.
 
 When creating a virtual machine, select the attribute values from the various drop-down lists. 
-Selecting the type from the **Virtual Machine Type** drop-down list (either Windows or Linux, will popoluate the Image Name drop-down lists with images associated with the Virtual Machine Type). 
+Selecting the type from the **Virtual Machine Type** drop-down list (either Windows or Linux, will populate the Image Name drop-down lists with images associated with the Virtual Machine Type). 
 Select the region from the **Region** drop-down list.
 Select the image that will be used to create the virtual machine from the **Image Name** drop-down list.
 If the image is a custom image, check the **Custom Image** checkbox. When selecting a custom image, a Disk Size is not required and the image size should match the size used when creating the custom image.
